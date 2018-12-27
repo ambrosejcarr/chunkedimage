@@ -1,0 +1,2 @@
+starfish>=0.0.30
+zarr
