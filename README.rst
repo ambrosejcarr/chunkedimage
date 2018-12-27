@@ -26,10 +26,21 @@ understand a bit better how things work.
 Installation
 ============
 
+Installation is a bit fragile, as I haven't uploaded this repository to pypi yet. 
+
+install this repository
+
+::
+
+    git clone https://github.com/ambrosejcarr/chunkedimage.git
+    cd chunkedimage
+    pip3 install -e .
+
 install the ``ajc-zarr`` branch of ``starfish``
 
 ::
 
+    cd starfish
     git checkout ajc-zarr
     pip3 install -e .
 
