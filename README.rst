@@ -23,10 +23,35 @@ A list of modifications to the SpaceTx format made in support of this exercise a
 ``specification/index.rst``. That file also contains some notes on slicedimage, now that I
 understand a bit better how things work.
 
+More Thoughts
+=============
+Mimicing the full TileSet API is not necessary with zarr-backing, since it knows how to produce
+xarrays directly from its chunks. The concept of a TileSet is kinda zarr-internal. To me this says
+that the starfish API should really be something like "return me an xarray or something that can
+become an xarray". Any other complexity we've got in the codebase should go live in the format
+library (zarr/slicedimage).
+
+Looking at zarr, it supports any storage class that implements a mutable mapping over chunks.
+We could write a TIFF backend, for example, in which 2d-TIFF files serve as the chunks. This could
+look very similar to the existing SpaceTx-Format and might use part of slicedimage as the back-end.
+If we inserted zarr in this way, it may help us to separate concerns about format vs library in
+starfish.
+
+Writing ImageStacks in Starfish is very closely tied to the SpaceTx-Format specification; it might
+be a good idea to factor out code that relates specifically to slicedimage into slicedimage. It
+feels like the right balance is that TileSet is an object that lives in starfish and exposes the
+minimum API needed to construct an ImageStack. That feels *much* more minimal than what exists
+there right now. Conversely, leaving this object in starfish means we could also have a
+to_tileset() method that creates a TileSet from the ImageStack.
+
+The downside of this is that I don't have a great sense of how to separate the backing of the
+TileSet from starfish. The zarr approach of specifying its API using a standard python ABC is a
+nice trick that I'd love to implement everywhere.
+
 Installation
 ============
 
-Installation is a bit fragile, as I haven't uploaded this repository to pypi yet. 
+Installation is a bit fragile, as I haven't uploaded this repository to pypi yet.
 
 install this repository
 

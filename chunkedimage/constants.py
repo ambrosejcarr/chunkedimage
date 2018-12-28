@@ -14,3 +14,6 @@ class Indices:
 
 class Coordinates:
     TILES = 'tile_coordinates'
+    Z = "zc"
+    Y = "yc"
+    X = "xc"
